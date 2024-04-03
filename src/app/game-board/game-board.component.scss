@@ -1,0 +1,12 @@
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px; // Space between cards
+    padding: 20px; // Padding around the cards within the box
+    margin: auto; // Center the game board on the page
+    max-width: 100%; // Adjust based on your card size and layout
+    background-color: #f0f0f0; // Light background color for the box
+    border-radius: 10px; // Rounded corners for the box
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.4); // Creates the "sunken" look
+  }
+  

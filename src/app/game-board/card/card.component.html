@@ -1,0 +1,10 @@
+<!-- card.component.html -->
+<div class="card" [class.flipped]="card.flipped" (click)="handleClick()">
+  <div class="card-front">
+    <!-- Only show the image when the card is flipped -->
+    <img [src]="card.imageUrl" alt="Card image">
+  </div>
+  <div class="card-back">
+    <!-- The back image is set via CSS -->
+  </div>
+</div>
