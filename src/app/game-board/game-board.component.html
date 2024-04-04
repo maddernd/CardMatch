@@ -1,10 +1,11 @@
-<!-- game-board.component.html -->
-<app-timer *ngIf="!gameCompleted"></app-timer> <!-- Timer display only when game is not completed -->
-
-<div class="game-board" *ngIf="!gameCompleted">
-  <ng-container *ngFor="let card of cards">
-    <app-card [card]="card" (click)="onCardClicked(card.id)"></app-card>
-  </ng-container>
+<div class="game-container">
+  <app-timer *ngIf="!gameCompleted" class="mb-8"></app-timer>
+  <div class="game-board-container" *ngIf="!gameCompleted">
+    <div #cardGrid class="card-grid">
+      <app-card *ngFor="let card of cards" [card]="card" (click)="onCardClicked(card.id)"></app-card>
+    </div>
+    <!-- Button to mark the game as completed for -->
+    <button class="complete-button" (click)="completeGame()">Mark as Completed</button>
+  </div>
 </div>
-
 <app-congratulations-screen *ngIf="gameCompleted" [totalTime]="totalTimeTaken" (newGame)="restartGame()"></app-congratulations-screen>

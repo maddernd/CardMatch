@@ -1,0 +1,18 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Adjust as needed */
+    color: white; /* Adjust as needed */
+    padding: 1rem; /* Adjust as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add shadow */
+    z-index: 1000; /* Ensure it's above other content */
+    text-align: center ;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 1.5rem; /* Adjust as needed */
+  }
+  

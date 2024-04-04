@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { TimerComponent } from '../timer/timer.component';
 import { CongratulationsScreenComponent } from '../congratulations-screen/congratulations-screen.component';
 import { NgFor, NgIf } from '@angular/common';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 interface Card {
   id: string;
@@ -14,7 +15,7 @@ interface Card {
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [CardComponent, TimerComponent, CongratulationsScreenComponent, NgIf, NgFor],
+  imports: [CardComponent, TimerComponent, CongratulationsScreenComponent, NgIf, NgFor, MatGridListModule],
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
@@ -22,28 +23,42 @@ export class GameBoardComponent implements OnInit {
   cards: Card[] = [];
   private flippedCards: Card[] = [];
   private matchCheckTimeout: any = null;
-  gameCompleted: boolean = false; // Flag to indicate game completion
-  totalTimeTaken: number = 0; // Track total time taken to complete the game
+  // Flag to indicate game completion
+  gameCompleted: boolean = false; 
+  // Track total time taken to complete the game
+  totalTimeTaken: number = 0; 
+  viewInitialized = false;
 
   @ViewChild(TimerComponent) timerComponent!: TimerComponent;
-
+  
   ngOnInit() {
   }
   ngAfterViewInit() {
+    this.viewInitialized = true;
     this.startGame();
   }
-  
+
   startGame(): void {
-    this.gameCompleted = false; // Reset game completion flag
-    this.totalTimeTaken = 0; // Reset time taken
+    // Reset game completion flag
+    this.gameCompleted = false; 
+    // Reset time taken
+    this.totalTimeTaken = 0; 
     this.initializeCards();
     this.shuffleCards();
     if (this.timerComponent) {
-      this.timerComponent.resetTimer(); // Make sure timer is reset before starting
-      this.timerComponent.startTimer(); // Start the timer
+      this.timerComponent.resetTimer(); 
+      // Start the timer
+      console.log("Start Timer Called")
+      this.timerComponent.startTimer(); 
     }
   }
 
+  // Testing only
+  completeGame(): void {
+    this.gameCompleted = true;
+    this.totalTimeTaken = this.timerComponent.time;
+  }
+  
   onCardClicked(cardId: string): void {
     const card = this.cards.find(c => c.id === cardId);
     if (!card || this.flippedCards.length === 2 || card.flipped || card.matched || this.matchCheckTimeout) return;
@@ -57,6 +72,7 @@ export class GameBoardComponent implements OnInit {
 }
 
 initializeCards(): void {
+  // Used to clean code for all the image names
   const suits = ['clubs', 'hearts', 'diamonds', 'spades'];
   const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
   
@@ -79,7 +95,7 @@ initializeCards(): void {
   this.shuffleCards();
 }
 
-// Utility method to shuffle an array
+// Utility method to shuffle array so we get some random cards from the deck
 shuffleArray(array: any[]): any[] {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -97,7 +113,7 @@ shuffleArray(array: any[]): any[] {
   }
 
 
-  private checkForMatch(): void {
+  checkForMatch(): void {
     const [firstCard, secondCard] = this.flippedCards;
 
     if (firstCard.imageUrl === secondCard.imageUrl) {
@@ -105,10 +121,13 @@ shuffleArray(array: any[]): any[] {
       secondCard.matched = true;
       this.flippedCards = [];
       if (this.cards.every(card => card.matched)) {
-        this.gameCompleted = true; // Set game completion flag
+        // Set game completion flag
+        this.gameCompleted = true; 
         if (this.timerComponent) {
-          this.timerComponent.stopTimer(); // Stop the timer when the game is completed
-          this.totalTimeTaken = this.timerComponent.time; // Get the total time from the timer component
+          // Stop the timer when the game is completed
+          this.timerComponent.stopTimer(); 
+          // Get the total time from the timer component
+          this.totalTimeTaken = this.timerComponent.time; 
         }
       }
     } else {
@@ -117,11 +136,25 @@ shuffleArray(array: any[]): any[] {
         secondCard.flipped = false;
         this.flippedCards = [];
         this.matchCheckTimeout = null;
+
+        // Penalize for opening a previously-opened card and not matching it correctly
+        if (firstCard.flipped && secondCard.flipped) {
+          console.log("fliped again")
+          this.timerComponent.increaseTime(5);
+        }
       }, 1000);
     }
   }
 
+
   restartGame(): void {
-    this.startGame(); // Add logic as needed to properly reset the game state
+  if (!this.viewInitialized) {
+    console.error("View is not initialized. Delaying game restart...");
+    setTimeout(() => this.restartGame(), 100); 
+    return;
   }
+    this.startGame(); 
+}
+
+
 }

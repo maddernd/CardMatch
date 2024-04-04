@@ -1,13 +1,14 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router'; 
 
+// This Component is used to display a congrats screen and a restart game button, its imported directly into game board.
 @Component({
   selector: 'app-congratulations-screen',
   standalone: true,
   imports: [NgIf],
   templateUrl: './congratulations-screen.component.html',
-  styleUrls: ['./congratulations-screen.component.scss'] // Correct to styleUrls and use an array
+  styleUrls: ['./congratulations-screen.component.scss'] 
 })
 export class CongratulationsScreenComponent {
   @Input() totalTime: number = 0;

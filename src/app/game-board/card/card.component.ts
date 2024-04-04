@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgIf } from '@angular/common';
 
+// This component is for the cards themsleves.
 @Component({
   selector: 'app-card',
   standalone: true,
@@ -10,7 +11,8 @@ import { NgIf } from '@angular/common';
 })
 export class CardComponent {
   @Input() card!: { id: string; imageUrl: string; matched: boolean; flipped: boolean; };
-  @Output() cardClicked = new EventEmitter<string>(); // Emit the card's ID
+  // Emit the card's ID
+  @Output() cardClicked = new EventEmitter<string>(); 
 
   handleClick() {
     if (!this.card.matched) { 
