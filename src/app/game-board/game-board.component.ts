@@ -23,6 +23,7 @@ export class GameBoardComponent implements OnInit {
   cards: Card[] = [];
   private flippedCards: Card[] = [];
   private matchCheckTimeout: any = null;
+  private lastFlippedCards: string[] = [];
   // Flag to indicate game completion
   gameCompleted: boolean = false; 
   // Track total time taken to complete the game
@@ -112,40 +113,42 @@ shuffleArray(array: any[]): any[] {
     }
   }
 
-
   checkForMatch(): void {
     const [firstCard, secondCard] = this.flippedCards;
-
+  
     if (firstCard.imageUrl === secondCard.imageUrl) {
       firstCard.matched = true;
       secondCard.matched = true;
       this.flippedCards = [];
+      this.lastFlippedCards = []; // Clear last flipped cards on a match
       if (this.cards.every(card => card.matched)) {
-        // Set game completion flag
         this.gameCompleted = true; 
         if (this.timerComponent) {
-          // Stop the timer when the game is completed
           this.timerComponent.stopTimer(); 
-          // Get the total time from the timer component
           this.totalTimeTaken = this.timerComponent.time; 
         }
       }
     } else {
+      // Check if the same pair was flipped again
+      const isRepeatedMismatch = this.lastFlippedCards.includes(firstCard.id) && this.lastFlippedCards.includes(secondCard.id);
+  
       this.matchCheckTimeout = setTimeout(() => {
         firstCard.flipped = false;
         secondCard.flipped = false;
         this.flippedCards = [];
-        this.matchCheckTimeout = null;
-
-        // Penalize for opening a previously-opened card and not matching it correctly
-        if (firstCard.flipped && secondCard.flipped) {
-          console.log("fliped again")
+  
+        if (isRepeatedMismatch) {
+          // Apply penalty for repeated mismatch
+          console.log("Penalty applied");
           this.timerComponent.increaseTime(5);
         }
+  
+        // Update lastFlippedCards for future reference
+        this.lastFlippedCards = [firstCard.id, secondCard.id];
+        this.matchCheckTimeout = null;
       }, 1000);
     }
   }
-
 
   restartGame(): void {
   if (!this.viewInitialized) {
