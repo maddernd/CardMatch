@@ -1,0 +1,23 @@
+
+.timer-card {
+    max-width: 100px; 
+    margin: auto; 
+    border: 2px solid #1976d2;
+    padding: 8px; 
+  }
+  
+  mat-card-title {
+    font-size: 0.5rem;
+    text-align: center;
+  }
+  
+  mat-card-content h1 {
+    font-size: 0.5rem; 
+    margin-top: 0.2rem; 
+    margin-bottom: 0.2rem; 
+    text-align: center;
+  }
+  mat-card {
+    background-color: #f3f2f7
+  }
+  

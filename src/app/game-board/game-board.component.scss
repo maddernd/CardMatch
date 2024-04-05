@@ -1,12 +1,56 @@
-.game-board {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); 
-    gap: 10px; // Space between cards
-    padding: 20px; // Padding around the cards within the box
-    margin: auto; // Center the game board on the page
-    max-width: 100%; // Adjust based on your card size and layout
-    background-color: #f0f0f0; // Light background color for the box
-    border-radius: 10px; // Rounded corners for the box
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.4); // Creates the "sunken" look
+.game-container {
+  display: flex;
+  flex-direction: column; 
+  padding-top: 1rem; 
+
+  .game-board-container {
+    margin-top: 1rem; 
   }
-  
+
+  @media (min-width: 600px) {
+    flex-direction: row; 
+    justify-content: space-around; 
+    padding-top: 0; 
+    
+    .game-board-container {
+      margin-top: 0; 
+    }
+  }
+}
+
+
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin: 2vh auto;
+  max-width: 96%;
+  max-height: 80vh;
+  overflow: hidden;
+  background-color: #f0f0f07e;
+}
+
+.card-grid {
+  display: grid;
+  width: min-content; 
+  min-width: 400px; 
+  grid-template-columns: repeat(6, minmax(0, 1fr)); 
+  grid-template-rows: repeat(6, minmax(0, 1fr)); 
+  grid-gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+app-card {
+  border: 1px solid #dfdfdf;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 1 / 1.5; 
+}
+
+@media (max-width: 600px) {
+  .card-grid {
+    min-width: 300px; 
+  }
+}
