@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { TimerComponent } from '../timer/timer.component';
 import { CongratulationsScreenComponent } from '../congratulations-screen/congratulations-screen.component';
@@ -31,7 +31,7 @@ export class GameBoardComponent implements OnInit {
   viewInitialized = false;
 
   @ViewChild(TimerComponent) timerComponent!: TimerComponent;
-  
+  constructor(private cdRef: ChangeDetectorRef) {}
   ngOnInit() {
   }
   ngAfterViewInit() {
@@ -43,23 +43,22 @@ export class GameBoardComponent implements OnInit {
     // Reset game completion flag
     this.gameCompleted = false; 
     // Reset time taken
-    this.totalTimeTaken = 0; 
+    this.totalTimeTaken = 0;
+    this.cdRef.detectChanges(); 
     this.initializeCards();
     this.shuffleCards();
     if (this.timerComponent) {
       this.timerComponent.resetTimer(); 
       // Start the timer
-      console.log("Start Timer Called")
       this.timerComponent.startTimer(); 
     }
   }
 
-  // Testing only
-  completeGame(): void {
-    this.gameCompleted = true;
-    this.totalTimeTaken = this.timerComponent.time;
-  }
-  
+  // // Testing only
+  // completeGame(): void {
+  //   this.gameCompleted = true;
+  //   this.totalTimeTaken = this.timerComponent.time;
+  // }
   onCardClicked(cardId: string): void {
     const card = this.cards.find(c => c.id === cardId);
     if (!card || this.flippedCards.length === 2 || card.flipped || card.matched || this.matchCheckTimeout) return;
@@ -105,7 +104,7 @@ shuffleArray(array: any[]): any[] {
   return array;
 }
 
-
+// basic array shuffle
   shuffleCards(): void {
     for (let i = this.cards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -113,6 +112,7 @@ shuffleArray(array: any[]): any[] {
     }
   }
 
+  // Check for matching cards to assist complete game and apply penalties etc
   checkForMatch(): void {
     const [firstCard, secondCard] = this.flippedCards;
   
@@ -120,7 +120,7 @@ shuffleArray(array: any[]): any[] {
       firstCard.matched = true;
       secondCard.matched = true;
       this.flippedCards = [];
-      this.lastFlippedCards = []; // Clear last flipped cards on a match
+      this.lastFlippedCards = []; 
       if (this.cards.every(card => card.matched)) {
         this.gameCompleted = true; 
         if (this.timerComponent) {

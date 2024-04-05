@@ -1,19 +1,19 @@
 .game-container {
   display: flex;
-  flex-direction: column; // Display children in a column layout
-  padding-top: 1rem; // Add padding at the top
+  flex-direction: column; 
+  padding-top: 1rem; 
 
   .game-board-container {
-    margin-top: 1rem; // Add some space between the timer and game board
+    margin-top: 1rem; 
   }
 
   @media (min-width: 600px) {
-    flex-direction: row; // On wider screens, display timer and game board side by side
-    justify-content: space-around; // Center the timer and game board horizontally with equal spacing
-    padding-top: 0; // Remove padding at the top on wider screens
+    flex-direction: row; 
+    justify-content: space-around; 
+    padding-top: 0; 
     
     .game-board-container {
-      margin-top: 0; // Remove margin on wider screens
+      margin-top: 0; 
     }
   }
 }
@@ -34,8 +34,8 @@
 
 .card-grid {
   display: grid;
-  width: min-content; // Ensure the grid does not expand beyond its content
-  min-width: 400px; // Default minimum width for the card grid
+  width: min-content; 
+  min-width: 400px; 
   grid-template-columns: repeat(6, minmax(0, 1fr)); 
   grid-template-rows: repeat(6, minmax(0, 1fr)); 
   grid-gap: 0.5rem;
@@ -46,11 +46,11 @@ app-card {
   border: 1px solid #dfdfdf;
   border-radius: 0.5rem;
   overflow: hidden;
-  aspect-ratio: 1 / 1.5; // Adjust the aspect ratio as needed for readability
+  aspect-ratio: 1 / 1.5; 
 }
 
 @media (max-width: 600px) {
   .card-grid {
-    min-width: 300px; // Adjust the minimum width for smaller screens
+    min-width: 300px; 
   }
 }

@@ -3,9 +3,5 @@
   <div class="game-board-container" *ngIf="!gameCompleted">
     <div #cardGrid class="card-grid">
       <app-card *ngFor="let card of cards" [card]="card" (click)="onCardClicked(card.id)"></app-card>
-    </div>
-    <!-- Button to mark the game as completed for -->
-    <button class="complete-button" (click)="completeGame()">Mark as Completed</button>
-  </div>
 </div>
 <app-congratulations-screen *ngIf="gameCompleted" [totalTime]="totalTimeTaken" (newGame)="restartGame()"></app-congratulations-screen>
